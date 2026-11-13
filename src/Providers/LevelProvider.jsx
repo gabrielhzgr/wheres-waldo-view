@@ -10,15 +10,19 @@ function LevelProvider({ children }) {
 
   useEffect(() => {
     async function getLevels() {
-      let result = await fetch(getAPIString() + "levels");
-      result = await result.json();
+      try {
+        const response = await fetch(getAPIString() + "levels");
+        const result = await response.json();
 
-      if (result.levels) {
-        setLevels(result.levels);
-      }
+        if (result.levels) {
+          setLevels(result.levels);
+        }
 
-      if (result.error) {
-        setError(error);
+        if (result.error) {
+          setError({ name: result.error, message: result.message });
+        }
+      } catch (err) {
+        setError(err);
       }
 
       setPending(false);
@@ -27,7 +31,7 @@ function LevelProvider({ children }) {
   }, []);
 
   return (
-    <LevelContext value={{ levels, setLevel, isPending, level }}>
+    <LevelContext value={{ levels, setLevel, isPending, level, error }}>
       {children}
     </LevelContext>
   );

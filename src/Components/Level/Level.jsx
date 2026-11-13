@@ -1,10 +1,12 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import LevelContext from "../../Contexts/LevelContext";
 
 import styles from "./Level.module.css";
 function Level() {
   const { level } = useContext(LevelContext);
+  const [onloadCount, setSOnloadCount] = useState(0);
+  const [time, setTime] = useState(0);
   const imageRef = useRef(null);
   const navigate = useNavigate();
 
@@ -12,6 +14,14 @@ function Level() {
     console.log("X", e.nativeEvent.offsetX);
     console.log("Y", e.nativeEvent.offsetY);
   }
+
+  useEffect(() => {
+    if (level && onloadCount == level.positions.length + 1) {
+      setInterval(() => {
+        setTime((time) => time + 1);
+      }, 1000);
+    }
+  }, [onloadCount]);
 
   useEffect(() => {
     if (!level) {
@@ -24,8 +34,17 @@ function Level() {
       {level ? (
         <>
           <h1>{level.name}</h1>
+          <p>{time}</p>
+          <CharacterList
+            characters={level.positions.map((position) => {
+              return position.character;
+            })}
+            handleOnLoad={() => setSOnloadCount((prevCount) => prevCount + 1)}
+          />
+
           <img
             ref={imageRef}
+            onLoad={() => setSOnloadCount((prevCount) => prevCount + 1)}
             onClick={(e) => {
               selectCharacter(e);
             }}
@@ -38,16 +57,19 @@ function Level() {
   );
 }
 
-const CharacterList = ({ characters }) => {
+const CharacterList = ({ characters, handleOnLoad }) => {
   return (
     <section>
-      <h2>Characters to find</h2>
-      <ul>
+      <ul className={styles["characters-list"]}>
         {characters.map((character) => {
           return (
             <li>
               <h2>{character.name}</h2>
-              <img src={character.imageUrl} alt="" />
+              <img
+                onLoad={handleOnLoad}
+                src={character.imageUrl}
+                alt={character.name}
+              />
             </li>
           );
         })}
