@@ -24,7 +24,7 @@ function Home() {
           <ul>
             {levels.map((level) => {
               return (
-                <li>
+                <li key={level.id}>
                   <a
                     onClick={(e) => {
                       changeLevel(e, level);

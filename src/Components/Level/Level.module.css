@@ -31,6 +31,10 @@
   font-size: 15px;
 }
 
+.image-container {
+  position: relative;
+}
+
 .game-image {
   max-width: 100%;
   cursor: crosshair;
