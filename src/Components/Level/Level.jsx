@@ -14,7 +14,7 @@ function Level() {
   const [naturalHeight, setNaturalHeight] = useState(0);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
-  const [pendingSelect, setPendingSelect] = useState(false);
+  const [isPending, setPending] = useState(false);
 
   const imageRef = useRef(null);
 
@@ -32,7 +32,7 @@ function Level() {
   }, []);
 
   function selectCharacter(e) {
-    if (loaded && !pendingSelect) {
+    if (loaded && !isPending) {
       const offsetX = e.nativeEvent.offsetX;
       const offsetY = e.nativeEvent.offsetY;
 
@@ -47,10 +47,13 @@ function Level() {
 
       if (selected.length < characters.length) {
         setSelected([...selected, { x: normalizedX, y: normalizedY }]);
-        setPendingSelect(true);
+        setPending(true);
       }
-    } else if (loaded && pendingSelect) {
-      setPendingSelect(false);
+    } else if (loaded && isPending) {
+      let copyAr = [...selected];
+      copyAr.splice(copyAr.length - 1, 1);
+      setSelected(copyAr);
+      setPending(false);
     }
   }
 
@@ -100,17 +103,19 @@ function Level() {
                   return (
                     <Mark
                       key={index}
+                      imageRef
+                      isSet={selection.characterId in selection}
                       characters={characters}
                       selectCb={(characterId) => {
                         let copyAr = [...selected];
                         copyAr[index].characterId = characterId;
-                        setPendingSelect(false);
+                        setPending(false);
                       }}
                       cancelCb={() => {
                         let copyAr = [...selected];
                         copyAr.splice(index, 1);
                         setSelected(copyAr);
-                        setPendingSelect(false);
+                        setPending(false);
                       }}
                       offsetX={(width / naturalWidth) * selection.x}
                       offsetY={(height / naturalHeight) * selection.y}

@@ -7,3 +7,12 @@
     -2px 3px 0px gold;
   position: relative;
 }
+
+.menu-action {
+  position: absolute;
+}
+
+.remove-button {
+  background-color: red;
+  color: white;
+}

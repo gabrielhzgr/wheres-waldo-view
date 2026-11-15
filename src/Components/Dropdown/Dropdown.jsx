@@ -1,17 +1,14 @@
 import styles from "./Dropdown.module.css";
-function Dropdown({ options }) {
-  function handlerChange(e) {
-    console.log(e.target.value);
-  }
+function Dropdown({ options, onChange }) {
   return (
-    <select
-      onChange={handlerChange}
-      className={styles["dropdown"]}
-      name=""
-      id=""
-    >
+    <select onChange={onChange} className={styles["dropdown"]}>
+      <option value="">Select a character</option>
       {options.map((option) => {
-        return <option value={option.id}>{option.name}</option>;
+        return (
+          <option key={option.id} value={option.id}>
+            {option.name}
+          </option>
+        );
       })}
     </select>
   );
