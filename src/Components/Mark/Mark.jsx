@@ -1,15 +1,17 @@
 import styles from "./Mark.module.css";
-function Mark({ offsetX, offsetY }) {
+import Dropdown from "../Dropdown/Dropdown.jsx";
+function Mark({ characters, selectCb, cancelCb, offsetX, offsetY }) {
   return (
     <span
-      className={styles["mark"]}
+      className={`${styles["mark"]} material-symbols-outlined`}
       style={{
         position: "absolute",
         left: offsetX,
         top: offsetY,
       }}
     >
-      X
+      location_on
+      <Dropdown options={characters} />
     </span>
   );
 }

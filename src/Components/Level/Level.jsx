@@ -8,12 +8,13 @@ function Level() {
   const { level } = useContext(LevelContext);
   const navigate = useNavigate();
 
-  const [onloadCount, setSOnloadCount] = useState(0);
+  const [onloadCount, setOnloadCount] = useState(0);
   const [selected, setSelected] = useState([]);
   const [naturalWidth, setNaturalWidth] = useState(0);
   const [naturalHeight, setNaturalHeight] = useState(0);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
+  const [pendingSelect, setPendingSelect] = useState(false);
 
   const imageRef = useRef(null);
 
@@ -31,7 +32,7 @@ function Level() {
   }, []);
 
   function selectCharacter(e) {
-    if (loaded) {
+    if (loaded && !pendingSelect) {
       const offsetX = e.nativeEvent.offsetX;
       const offsetY = e.nativeEvent.offsetY;
 
@@ -46,11 +47,25 @@ function Level() {
 
       if (selected.length < characters.length) {
         setSelected([...selected, { x: normalizedX, y: normalizedY }]);
+        setPendingSelect(true);
       }
+    } else if (loaded && pendingSelect) {
+      setPendingSelect(false);
     }
   }
 
-  function handleResize() {}
+  useEffect(() => {
+    function handleResize() {
+      setWidth(imageRef.current.width);
+      setHeight(imageRef.current.height);
+      setNaturalWidth(imageRef.current.naturalWidth);
+      setNaturalHeight(imageRef.current.naturalHeight);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  });
 
   return (
     <section className={styles["game-board"]}>
@@ -60,20 +75,19 @@ function Level() {
           <CharacterList
             characters={characters}
             handleOnLoad={() => {
-              setSOnloadCount((prevCount) => prevCount + 1);
+              setOnloadCount((prevCount) => prevCount + 1);
             }}
           />
           <section className={styles["image-container"]}>
             <img
               ref={imageRef}
               onLoad={() => {
-                setSOnloadCount((prevCount) => prevCount + 1);
+                setOnloadCount((prevCount) => prevCount + 1);
                 setWidth(imageRef.current.width);
                 setHeight(imageRef.current.height);
                 setNaturalWidth(imageRef.current.naturalWidth);
                 setNaturalHeight(imageRef.current.naturalHeight);
               }}
-              onResize={handleResize}
               onClick={(e) => {
                 selectCharacter(e);
               }}
@@ -86,6 +100,18 @@ function Level() {
                   return (
                     <Mark
                       key={index}
+                      characters={characters}
+                      selectCb={(characterId) => {
+                        let copyAr = [...selected];
+                        copyAr[index].characterId = characterId;
+                        setPendingSelect(false);
+                      }}
+                      cancelCb={() => {
+                        let copyAr = [...selected];
+                        copyAr.splice(index, 1);
+                        setSelected(copyAr);
+                        setPendingSelect(false);
+                      }}
                       offsetX={(width / naturalWidth) * selection.x}
                       offsetY={(height / naturalHeight) * selection.y}
                     />
