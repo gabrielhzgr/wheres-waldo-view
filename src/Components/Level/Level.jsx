@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import LevelContext from "../../Contexts/LevelContext";
 import Mark from "../Mark/Mark.jsx";
+import getAPIString from "../../lib/getAPIstring.js";
 
 import styles from "./Level.module.css";
 function Level() {
@@ -31,6 +32,36 @@ function Level() {
     }
   }, []);
 
+  console.log(selected);
+
+  useEffect(() => {
+    function handleResize() {
+      setWidth(imageRef.current.width);
+      setHeight(imageRef.current.height);
+      setNaturalWidth(imageRef.current.naturalWidth);
+      setNaturalHeight(imageRef.current.naturalHeight);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  });
+
+  useEffect(() => {
+    async function startGame() {
+      const response = await fetch(
+        `${getAPIString()}/levels/${level.id}/new-game`,
+        { method: "GET", credentials: "include" },
+      );
+      const result = await response.json();
+      console.log(result);
+    }
+
+    if (onloadCount == characters.length + 1) {
+      startGame();
+    }
+  }, [onloadCount]);
+
   function selectCharacter(e) {
     if (loaded && !isPending) {
       const offsetX = e.nativeEvent.offsetX;
@@ -57,18 +88,15 @@ function Level() {
     }
   }
 
-  useEffect(() => {
-    function handleResize() {
-      setWidth(imageRef.current.width);
-      setHeight(imageRef.current.height);
-      setNaturalWidth(imageRef.current.naturalWidth);
-      setNaturalHeight(imageRef.current.naturalHeight);
-    }
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  });
+  async function endGame() {
+    const response = await fetch(`${getAPIString()}/levels/end-game`, {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify(selected),
+    });
+    const result = await response.json();
+    console.log(result);
+  }
 
   return (
     <section className={styles["game-board"]}>
@@ -81,6 +109,9 @@ function Level() {
               setOnloadCount((prevCount) => prevCount + 1);
             }}
           />
+          <button onClick={endGame} className={styles["finish-button"]}>
+            Submit
+          </button>
           <section className={styles["image-container"]}>
             <img
               ref={imageRef}

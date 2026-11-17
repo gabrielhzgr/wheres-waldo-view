@@ -11,7 +11,7 @@ function LevelProvider({ children }) {
   useEffect(() => {
     async function getLevels() {
       try {
-        const response = await fetch(getAPIString() + "levels");
+        const response = await fetch(`${getAPIString()}/levels`);
         const result = await response.json();
 
         if (result.levels) {
