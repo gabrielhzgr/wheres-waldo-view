@@ -1,0 +1,14 @@
+.records {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background-color: dargb(31, 27, 27);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.close {
+  position: absolute;
+  top: 0px;
+}

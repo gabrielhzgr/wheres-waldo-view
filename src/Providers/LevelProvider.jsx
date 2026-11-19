@@ -1,37 +1,47 @@
 import LevelContext from "../Contexts/LevelContext.jsx";
-import getAPIString from "../lib/getAPIstring";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function LevelProvider({ children }) {
-  const [levels, setLevels] = useState(null);
-  const [isPending, setPending] = useState(true);
   const [level, setLevel] = useState(null);
+  const [selected, setSelected] = useState([]);
+  const [isPending, setPending] = useState(false);
+  const [completed, setCompleted] = useState(false);
   const [error, setError] = useState(null);
+  const [verifying, setVerifying] = useState(false);
+  const [records, setRecords] = useState(null);
+  const [currentRecord, setCurrentRecord] = useState(null);
 
-  useEffect(() => {
-    async function getLevels() {
-      try {
-        const response = await fetch(`${getAPIString()}/levels`);
-        const result = await response.json();
-
-        if (result.levels) {
-          setLevels(result.levels);
-        }
-
-        if (result.error) {
-          setError({ name: result.error, message: result.message });
-        }
-      } catch (err) {
-        setError(err);
-      }
-
-      setPending(false);
-    }
-    getLevels();
-  }, []);
+  function reset() {
+    setSelected([]);
+    setPending(false);
+    setCompleted(false);
+    setError(null);
+    setVerifying(false);
+    setRecords(null);
+  }
 
   return (
-    <LevelContext value={{ levels, setLevel, isPending, level, error }}>
+    <LevelContext
+      value={{
+        level,
+        setLevel,
+        isPending,
+        setPending,
+        error,
+        setError,
+        completed,
+        setCompleted,
+        selected,
+        setSelected,
+        verifying,
+        setVerifying,
+        records,
+        setRecords,
+        reset,
+        currentRecord,
+        setCurrentRecord,
+      }}
+    >
       {children}
     </LevelContext>
   );

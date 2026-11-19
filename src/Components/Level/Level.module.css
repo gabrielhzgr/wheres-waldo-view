@@ -10,6 +10,7 @@
   gap: 10px;
   width: 100%;
   overflow-x: hidden;
+  position: relative;
 }
 
 .characters-list {
@@ -43,9 +44,14 @@
   cursor: crosshair;
 }
 
-.finish-button {
-  background-color: dodgerblue;
-  color: white;
-  width: fit-content;
-  padding: 10px;
+.game-image.verifying {
+  opacity: 0.3;
+  cursor: crosshair;
+}
+
+.home-link {
+  color: dodgerblue;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }

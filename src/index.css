@@ -10,6 +10,7 @@ html {
   height: 100vh;
   overflow-x: hidden;
   font-family: "Open Sans", sans-serif;
+  background-color: ghostwhite;
 }
 
 #root {
@@ -39,12 +40,20 @@ li {
     "opsz" 24;
 }
 
-h1,
-h2,
-h3 {
-  font-family: Merriweather, serif;
+h1 {
+  text-align: center;
+}
+
+*:disabled {
+  background-color: grey;
+  cursor: crosshair;
 }
 
 h1 {
-  text-align: center;
+  font-style: italic;
+  color: red;
+  text-shadow:
+    -2px 2px blue,
+    -4px 2px white,
+    -6px 2px gold;
 }

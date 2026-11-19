@@ -6,13 +6,21 @@
     -1px 2px 0px blue,
     -2px 3px 0px gold;
   position: relative;
+  cursor: pointer;
 }
 
 .menu-action {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+.character-name {
+  font-family: "Open Sans", sans-serif;
 }
 
 .remove-button {
   background-color: red;
   color: white;
+  cursor: pointer;
 }

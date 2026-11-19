@@ -1,33 +1,19 @@
 import styles from "./Mark.module.css";
 import Dropdown from "../Dropdown/Dropdown.jsx";
 import { useState, useRef } from "react";
-function Mark({
-  isSet = false,
-  characters,
-  selectCb,
-  cancelCb,
-  offsetX,
-  offsetY,
-}) {
+function Mark({ characters, selectCb, offsetX, offsetY }) {
   const markRef = useRef(null);
 
-  const [showDropDown, setShowDropDown] = useState(!isSet);
-
-  function handleClick(e) {
-    e.stopPropagation();
-    setShowDropDown(true);
-  }
+  const [showMenu, setShowMenu] = useState(true);
 
   function handleChange(e) {
-    console.log(e.target.value);
-
     if (e.target.value !== "") selectCb(Number(e.target.value));
+    setShowMenu(false);
   }
   return (
     <span
       className={`${styles["mark"]} material-symbols-outlined`}
       ref={markRef}
-      onClick={handleClick}
       style={{
         position: "absolute",
         left: offsetX,
@@ -35,22 +21,11 @@ function Mark({
       }}
     >
       location_on
-      <section className={styles["menu-action"]}>
-        {showDropDown ? (
+      {showMenu ? (
+        <section className={styles["menu-action"]}>
           <Dropdown options={characters} onChange={handleChange} />
-        ) : null}
-        <button className={styles["remove-button"]} onClick={cancelCb}>
-          Remove
-        </button>
-        {isSet ? (
-          <button
-            className={styles["change-button"]}
-            onClick={() => setShowDropDown(true)}
-          >
-            Change selection
-          </button>
-        ) : null}
-      </section>
+        </section>
+      ) : null}
     </span>
   );
 }

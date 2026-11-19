@@ -1,10 +1,13 @@
+import styles from "./Home.module.css";
 import { useContext } from "react";
 import LevelContext from "../../Contexts/LevelContext.jsx";
 import Error from "../../Components/Error/Error.jsx";
 import { useNavigate } from "react-router";
+import useLevels from "../../Hooks/useLevels.jsx";
 
 function Home() {
-  const { levels, setLevel, error, isPending } = useContext(LevelContext);
+  const { levels, isPending, error } = useLevels();
+  const { setLevel } = useContext(LevelContext);
   const navigate = useNavigate();
 
   function changeLevel(e, level) {
@@ -19,19 +22,21 @@ function Home() {
       {error ? <Error error={error} /> : null}
       {levels ? (
         <>
-          <h1>Select a level</h1>
+          <h1 className={styles["main-title"]}>Select a level</h1>
 
-          <ul>
+          <ul className={styles["levels"]}>
             {levels.map((level) => {
               return (
-                <li key={level.id}>
+                <li key={level.id} className={styles["level"]}>
                   <a
                     onClick={(e) => {
                       changeLevel(e, level);
                     }}
+                    className={styles["level-link"]}
                   >
                     {level.name}
                   </a>
+                  <img src={level.imageUrl} alt="" />
                 </li>
               );
             })}
