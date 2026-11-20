@@ -4,7 +4,6 @@ import LevelContext from "../../Contexts/LevelContext.jsx";
 import Error from "../../Components/Error/Error.jsx";
 import { useNavigate } from "react-router";
 import useLevels from "../../Hooks/useLevels.jsx";
-import getAPIString from "../../lib/getAPIstring.js";
 
 function Home() {
   const { levels, isPending, error } = useLevels();
@@ -16,9 +15,6 @@ function Home() {
     setLevel(level);
     navigate("play");
   }
-
-  console.log(getAPIString());
-  console.log(import.meta.env.VITE_ENV);
 
   return (
     <>
