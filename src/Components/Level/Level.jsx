@@ -130,7 +130,13 @@ function Level() {
             }}
           />
           {completed ? (
-            <button className={styles["restart-button"]} onClick={reset}>
+            <button
+              className={styles["restart-button"]}
+              onClick={() => {
+                reset();
+                startGame();
+              }}
+            >
               Restart
             </button>
           ) : null}
@@ -148,7 +154,7 @@ function Level() {
               onClick={(e) => {
                 selectCharacter(e);
               }}
-              className={`${styles["game-image"]} ${verifying ? styles["verifying"] : ""}`}
+              className={`${styles["game-image"]} ${verifying || completed ? styles["verifying"] : ""}`}
               src={level.imageUrl}
             />
             {loaded ? (
@@ -197,6 +203,7 @@ function Level() {
                         }
                       }
                     } catch (err) {
+                      console.log(err);
                       setError(err);
                       setPending(false);
                       setVerifying(false);
@@ -232,6 +239,7 @@ function Level() {
       </a>
       {completed ? (
         <Records
+          levelId={level.id}
           records={records}
           setRecords={setRecords}
           currentRecord={currentRecord}

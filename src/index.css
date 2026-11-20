@@ -49,6 +49,11 @@ h1 {
   cursor: crosshair;
 }
 
+button:disabled {
+  background-color: grey;
+  cursor: crosshair;
+}
+
 h1 {
   font-style: italic;
   color: red;

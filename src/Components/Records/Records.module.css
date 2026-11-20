@@ -1,14 +1,37 @@
 .records {
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  background-color: dargb(31, 27, 27);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: none;
 }
 
 .close {
   position: absolute;
   top: 0px;
+  left: 0px;
+  cursor: pointer;
+}
+
+.records.active {
+  color: white;
+  width: 100vw;
+  top: 0px;
+  height: 100vh;
+  position: absolute;
+  background-color: rgb(31, 27, 27);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.records form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-submit {
+  margin-top: 10px;
+  padding: 7px;
+  border-radius: 10px;
+  color: white;
+  background-color: dodgerblue;
+  cursor: pointer;
 }
