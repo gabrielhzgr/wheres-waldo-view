@@ -18,6 +18,7 @@ function Home() {
   }
 
   console.log(getAPIString());
+  console.log(import.meta.env.VITE_ENV);
 
   return (
     <>
