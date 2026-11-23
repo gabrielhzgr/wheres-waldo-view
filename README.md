@@ -1,16 +1,10 @@
-# React + Vite
+# Where's waldo view
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Where is waldo game, where you must find the characters in a crowded picture.
 
-Currently, two official plugins are available:
+Made in _react_, it connects with an api made in _ExpressJS_.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+When selecting a characters it verifes with the backend to let the user know if they were correct or not. When guessing correctly all the
+characters you can provide a username to record that time.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Live**: https://whereis-waldo.netlify.app/
